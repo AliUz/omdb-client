@@ -1,19 +1,19 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { ActivityIndicator, StyleSheet, View, ListView, ScrollView, TouchableHighlight, Text, Image } from 'react-native';
+import { ActivityIndicator, StyleSheet, View, ScrollView, Text, Image, ListView } from 'react-native';
 
 class SearchResults extends Component {
 
     constructor (props) {
         super(props);
-        var ds = new ListView.DataSource({
+        const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         });
         this.state = {
-            dataSource: ds,
             showProgress: true,
-            searchQuery: props.searchQuery
+            searchQuery: props.searchQuery,
+            dataSource: ds
         };
     }
 
@@ -35,8 +35,10 @@ class SearchResults extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
+                console.log(responseData.movies);
                 this.setState({
                     movies: responseData.movies,
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.movies)
                 });
             })
             .finally(() => {
@@ -52,14 +54,14 @@ class SearchResults extends Component {
     listMovies() {
         const movies = this.state.movies;
         return movies.map((movie, i) => {
-          return(
+          return (
             <View key={i} style={ styles.viewContainer }>
-              <Image 
-              style={ styles.base } 
+              <Image
+              style={ styles.base }
               source={{ uri: movie.poster.replace('http://', 'https://') }} />
-              <View>
+              {/* <View>
                 <Text>{movie.title} - {movie.year}</Text>
-              </View>
+              </View> */}
             </View>
           );
         });
@@ -69,7 +71,8 @@ class SearchResults extends Component {
         if (this.state.showProgress) {
           return (
             <View style={{
-              flex: 1, 
+              flex: 1,
+              flexDirection: 'row',
               justifyContent: 'center'
             }}>
               <ActivityIndicator
@@ -79,40 +82,32 @@ class SearchResults extends Component {
           );
         }
         return (
-          <ScrollView style={ styles.container }>
-            <Text> Search Results </Text>
-            {this.listMovies()}
-          </ScrollView>
+            <ListView
+              dataSource={this.state.dataSource}
+              renderRow={(rowData) => <Text>{rowData.title}</Text>}
+            />
         );
     }
 }
 
 var styles = StyleSheet.create({
       base: {
-        height: 200,
-        width: 200
+        height: 100,
+        width: 100
       },
       container: {
         paddingLeft:20,
         paddingRight:20,
-        marginTop: 100
+        marginTop: 100,
+        flex: 1,
+        flexDirection:'row',
       },
       viewContainer:{
-        flexDirection:'column',
-        flexWrap: 'wrap',
-        alignItems: 'center',
+        // flexDirection:'row',
+        // justifyContent: 'flex-start',
+        // flexWrap: 'wrap',
+        // alignItems: 'center',
         flex: 1
-      },
-      repoCell: {
-        width: 50,
-        alignItems: 'center'
-      },
-      repoCellIcon: {
-        width: 20,
-        height: 20
-      },
-      repoCellLabel: {
-        textAlign: 'center'
       }
 });
 

@@ -6,16 +6,11 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { AppRegistry, ActivityIndicator, StyleSheet, View, NavigatorIOS } from 'react-native';
+import { AppRegistry, NavigatorIOS } from 'react-native';
 
-const Search = require('./search');
-
-type State = { animating: boolean; };
-type Timer = number;
+import Search from './components/search';
 
 class omdbClient extends Component {
-  state: State;
-  _timer: Timer;
 
   constructor(props) {
     super(props);
@@ -42,48 +37,14 @@ class omdbClient extends Component {
   render() {
     return (
       <NavigatorIOS
-          style={{
-            flex: 1
-          }}
+          style={{ flex: 1 }}
           initialRoute={{
             component: Search,
-            title: 'Search'
+            title: ''
           }}
       />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  centering: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 8,
-  },
-  gray: {
-    backgroundColor: '#cccccc',
-  },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 8,
-  },
-});
 
 AppRegistry.registerComponent('omdbClient', () => omdbClient);
