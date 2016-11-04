@@ -8,6 +8,7 @@
   "dependencies": {
     "react": "15.2.1",
     "react-native": "0.31.0",
+    "react-native-grid-view": "^0.4.1",
     "yarn": "^0.16.1"
   },
   "devDependencies": {

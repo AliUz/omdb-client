@@ -1,19 +1,17 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { ActivityIndicator, StyleSheet, View, ScrollView, Text, Image, ListView } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import GridView from 'react-native-grid-view'
+import Movie from './movie';
 
 class SearchResults extends Component {
 
     constructor (props) {
         super(props);
-        const ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-        });
         this.state = {
             showProgress: true,
             searchQuery: props.searchQuery,
-            dataSource: ds
         };
     }
 
@@ -38,7 +36,6 @@ class SearchResults extends Component {
                 console.log(responseData.movies);
                 this.setState({
                     movies: responseData.movies,
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.movies)
                 });
             })
             .finally(() => {
@@ -51,20 +48,8 @@ class SearchResults extends Component {
             });
     }
 
-    listMovies() {
-        const movies = this.state.movies;
-        return movies.map((movie, i) => {
-          return (
-            <View key={i} style={ styles.viewContainer }>
-              <Image
-              style={ styles.base }
-              source={{ uri: movie.poster.replace('http://', 'https://') }} />
-              {/* <View>
-                <Text>{movie.title} - {movie.year}</Text>
-              </View> */}
-            </View>
-          );
-        });
+    renderItem(item) {
+        return <Movie movie={item} key={item.imdb}/>;
     }
 
     render() {
@@ -82,33 +67,24 @@ class SearchResults extends Component {
           );
         }
         return (
-            <ListView
-              dataSource={this.state.dataSource}
-              renderRow={(rowData) => <Text>{rowData.title}</Text>}
+            <GridView
+                items={this.state.movies}
+                itemsPerRow={1}
+                renderItem={this.renderItem}
+                style={styles.listView}
             />
         );
     }
 }
 
 var styles = StyleSheet.create({
-      base: {
+    base: {
         height: 100,
         width: 100
-      },
-      container: {
-        paddingLeft:20,
-        paddingRight:20,
-        marginTop: 100,
-        flex: 1,
-        flexDirection:'row',
-      },
-      viewContainer:{
-        // flexDirection:'row',
-        // justifyContent: 'flex-start',
-        // flexWrap: 'wrap',
-        // alignItems: 'center',
-        flex: 1
-      }
+    },
+    listView: {
+        paddingTop: 80,
+    },
 });
 
 module.exports = SearchResults;
