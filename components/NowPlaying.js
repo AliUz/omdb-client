@@ -1,18 +1,18 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { StyleSheet, NavigatorIOS } from 'react-native';
+import { StyleSheet, NavigatorIOS} from 'react-native';
 
-import SearchMovies from './SearchMovies';
+import MovieList from './MovieList';
 
-class Search extends Component {
+class NowPlaying extends Component {
     render() {
         return (
             <NavigatorIOS
                 style={styles.container}
                 initialRoute={{
-            title: 'Search Movies',
-            component: SearchMovies
+            title: 'Now Playing',
+            component: MovieList
             }}/>
         );
     }
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = Search;
+module.exports = NowPlaying;

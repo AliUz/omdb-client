@@ -1,90 +1,101 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import GridView from 'react-native-grid-view'
-import Movie from './movie';
+import {
+    StyleSheet,
+    View,
+    Text,
+    TouchableHighlight,
+    Image,
+    ListView
+} from 'react-native';
+import MovieDetail from './MovieDetail';
+import { BASE_IMAGE_URL } from '../config.js';
 
 class SearchResults extends Component {
 
-    constructor (props) {
+    constructor(props) {
         super(props);
+        const dataSource = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
         this.state = {
-            showProgress: true,
-            searchQuery: props.searchQuery,
+            dataSource: dataSource.cloneWithRows(this.props.movies)
         };
     }
 
-    componentDidMount () {
-        this.doSearch();
+    renderMovie = (movie) => {
+        return (
+            <TouchableHighlight onPress={() => this.showMovieDetail(movie)} underlayColor='#dddddd'>
+                <View>
+                    <View style={styles.cellContainer}>
+                        <Image
+                            source={{ uri: `${BASE_IMAGE_URL}${movie.poster_path}`}}
+                            style={styles.thumbnail}/>
+                        <View style={styles.rightContainer}>
+                            <Text style={styles.title}>{movie.title}</Text>
+                            <Text style={styles.author}>{movie.release_date}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.separator} />
+                </View>
+            </TouchableHighlight>
+        )
     }
 
-    doSearch () {
-        const url = 'https://q46t3jsa1i.execute-api.eu-central-1.amazonaws.com/test/movies';
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: this.state.searchQuery
-            })
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                console.log(responseData.movies);
-                this.setState({
-                    movies: responseData.movies,
-                });
-            })
-            .finally(() => {
-                this.setState({
-                    showProgress:false
-                });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
-
-    renderItem(item) {
-        return <Movie movie={item} key={item.imdb}/>;
+    showMovieDetail = (movie) => {
+        this.props.navigator.push({
+            title: movie.title,
+            component: MovieDetail,
+            passProps: { movie }
+        });
     }
 
     render() {
-        if (this.state.showProgress) {
-          return (
-            <View style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center'
-            }}>
-              <ActivityIndicator
-                  size="large"
-                  animating={this.state.showProgress} />
-            </View>
-          );
-        }
         return (
-            <GridView
-                items={this.state.movies}
-                itemsPerRow={1}
-                renderItem={this.renderItem}
+            <ListView
+                dataSource={this.state.dataSource}
+                renderRow={this.renderMovie}
                 style={styles.listView}
             />
         );
     }
 }
 
-var styles = StyleSheet.create({
-    base: {
-        height: 100,
-        width: 100
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    title: {
+        fontSize: 20,
+        marginBottom: 8
+    },
+    author: {
+        color: '#656565'
+    },
+    separator: {
+        height: 1,
+        backgroundColor: '#dddddd'
     },
     listView: {
-        paddingTop: 80,
+        backgroundColor: '#F5FCFF'
     },
+    cellContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+        padding: 10
+    },
+    thumbnail: {
+        width: 53,
+        height: 81,
+        marginRight: 10
+    },
+    rightContainer: {
+        flex: 1
+    }
 });
 
 module.exports = SearchResults;

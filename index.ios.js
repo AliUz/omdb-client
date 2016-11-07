@@ -6,45 +6,48 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { AppRegistry, NavigatorIOS } from 'react-native';
+import { AppRegistry, TabBarIOS } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-import Search from './components/search';
 
-class omdbClient extends Component {
+import NowPlaying from './components/NowPlaying';
+import Search from './components/Search';
+
+class MovieDB extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      animating: true,
+        selectedTab: 'nowPlaying'
     };
-  }
-
-  componentDidMount() {
-    this.setToggleTimeout();
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this._timer);
-  }
-
-  setToggleTimeout() {
-    this._timer = setTimeout(() => {
-      this.setState({animating: !this.state.animating});
-      this.setToggleTimeout();
-    }, 2000);
   }
 
   render() {
     return (
-      <NavigatorIOS
-          style={{ flex: 1 }}
-          initialRoute={{
-            component: Search,
-            title: ''
-          }}
-      />
+        <TabBarIOS selectedTab={this.state.selectedTab}>
+            <Icon.TabBarItemIOS
+                selected={this.state.selectedTab === 'nowPlaying'}
+                iconName="film"
+                onPress={() => {
+                    this.setState({
+                        selectedTab: 'nowPlaying'
+                    });
+                }}>
+                <NowPlaying/>
+            </Icon.TabBarItemIOS>
+            <Icon.TabBarItemIOS
+                selected={this.state.selectedTab === 'search'}
+                iconName="search"
+                onPress={() => {
+                    this.setState({
+                        selectedTab: 'search'
+                    });
+                }}>
+                <Search/>
+            </Icon.TabBarItemIOS>
+        </TabBarIOS>
     );
   }
 }
 
-AppRegistry.registerComponent('omdbClient', () => omdbClient);
+AppRegistry.registerComponent('MovieDB', () => MovieDB);
