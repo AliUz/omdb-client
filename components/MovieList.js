@@ -8,7 +8,7 @@ import {
     Text,
     ListView,
     TouchableHighlight,
-    ActivityIndicatorIOS
+    ActivityIndicator
 } from 'react-native';
 
 import MovieDetail from './MovieDetail';
@@ -53,7 +53,7 @@ class MovieList extends Component {
 
     renderBook = (movie) => {
         return (
-            <TouchableHighlight onPress={() => this.showMovieDetail(movie)}  underlayColor='#dddddd'>
+            <TouchableHighlight onPress={() => this.showMovieDetail(movie)}  underlayColor="#dddddd">
                 <View>
                     <View style={styles.container}>
                         <Image source={{uri: `${BASE_IMAGE_URL}${movie.poster_path}`}}
@@ -66,14 +66,14 @@ class MovieList extends Component {
                     <View style={styles.separator} />
                 </View>
             </TouchableHighlight>
-        )
+        );
     }
 
     renderLoadingView() {
         return (
             <View style={styles.loading}>
-                <ActivityIndicatorIOS
-                    size='large'/>
+                <ActivityIndicator
+                    size="large"/>
                 <Text>
                     Loading Movies...
                 </Text>

@@ -37,10 +37,8 @@ class SearchMovies extends Component {
     fetchMovies() {
         if (this.state.movieTitle !== '') {
             const movieQuery = queryString.stringify({ query: this.state.movieTitle });
-            console.log(`movieQuery >>>> ${movieQuery}`);
             BASE_URL = `${BASE_URL}&${movieQuery}`;
         }
-        console.log(`URL: >>>> ${BASE_URL}`);
         fetch(BASE_URL)
             .then(response => response.json())
             .then(responseData => {
