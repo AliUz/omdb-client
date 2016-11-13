@@ -17,11 +17,16 @@ class Profile extends Component {
     }
 
     render() {
+        let image;
         const cast = this.props.cast;
         const profileImageUri = `${BASE_IMAGE_URL}${cast.profile_path}`;
-        const image = cast.profile_path ?
+        if (cast.id === 71580) { // Shitty hack for Benedict Cumberbatch, profile_path image gets stretched out.
+            image = <Image style={styles.image} source={{uri: 'https://image.tmdb.org/t/p/w500/gJmGwEsEcpPsJ4vjrh3nJiooZ7B.jpg'}} />;
+        } else {
+        image = cast.profile_path ?
             <Image style={styles.image} source={{uri: profileImageUri}} /> :
             <Image style={styles.image} source={require('../assets/default_profile.jpg')} />;
+        }
         return (
             <View style={styles.container}>
                 {image}

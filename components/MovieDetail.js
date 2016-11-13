@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 6.5,
         borderTopWidth: 4,
         borderColor: 'black',
-        width: 500
+        width: 500,
+        marginBottom: 5
     },
     infoContainer: {
         backgroundColor: '#f5f5f5',
