@@ -1,9 +1,8 @@
 'use strict';
 
-const getGenres = (genreIds, genres) => {
+const getGenres = (genres) => {
     return (
         genres
-            .filter(genre => genreIds.includes(genre.id))
             .map(genre => genre.name)
             .join(', ')
     );

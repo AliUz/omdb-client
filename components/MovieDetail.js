@@ -9,42 +9,26 @@ import {
     ScrollView
 } from 'react-native';
 import CastAndCrew from './CastAndCrew';
-import { API_KEY, BASE_IMAGE_URL } from '../config.js';
+import { BASE_IMAGE_URL } from '../config.js';
 import getGenres from '../helpers/getGenres';
-
-const REQUEST_URL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`;
 
 class MovieDetail extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            genres: []
-        };
-    }
-
-    componentDidMount() {
-        this.fetchGenres();
-    }
-
-    fetchGenres = () => {
-        fetch(REQUEST_URL)
-            .then(response => response.json())
-            .then((responseData) => {
-                this.setState({
-                    genres: responseData.genres
-                });
-            })
-            .done();
     }
 
     render() {
         const movie = this.props.movie;
-        const genres = this.state.genres;
-        const genreNames = getGenres(movie.genre_ids, genres);
+        const genres = movie.genres;
+        const genreNames = getGenres(genres);
         const backdropImageURI = `${BASE_IMAGE_URL}${movie.backdrop_path}`;
         const posterImageURI = `${BASE_IMAGE_URL}${movie.poster_path}`;
         const overview = movie.overview;
         const year = movie.release_date.split('-')[0];
+        console.log(movie.id);
+        const pgRating = movie.adult ? 'R' : 'PG-13';
+        const runtime = movie.runtime;
+
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 <View style={styles.imageContainer}>
@@ -56,6 +40,8 @@ class MovieDetail extends Component {
                         <Text style={styles.year}> ({year}) </Text>
                     </View>
                     <View style={styles.genreContainer}>
+                        <Text style={styles.pgRating}> {pgRating} | </Text>
+                        <Text style={styles.runtime}> {runtime} min | </Text>
                         <Text style={styles.genres}> {genreNames} </Text>
                     </View>
                 </View>
@@ -63,7 +49,7 @@ class MovieDetail extends Component {
                     <Image style={styles.descriptionImage} source={{uri: posterImageURI}} />
                     <Text style={styles.description}>{overview}</Text>
                 </View>
-                <CastAndCrew movie={movie}></CastAndCrew>
+                <CastAndCrew movie={movie}/>
             </ScrollView>
         );
     }
@@ -71,7 +57,8 @@ class MovieDetail extends Component {
 
 const styles = StyleSheet.create({
     container: {
-
+        marginTop: 65,
+        paddingBottom: 50
     },
     imageContainer: {
         borderBottomWidth: 6.5,
@@ -95,7 +82,7 @@ const styles = StyleSheet.create({
     genreContainer: {
         flex: 1,
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        // flexWrap: 'wrap'
     },
     descriptionContainer: {
         flexDirection: 'row',
@@ -115,10 +102,18 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'gray',
     },
-    genres: {
+    pgRating: {
         marginLeft: 12,
+        marginTop: 6,
+        fontSize: 8,
+    },
+    runtime: {
+        marginTop: 6,
+        fontSize: 8,
+    },
+    genres: {
         marginTop: 5,
-        fontSize: 10,
+        fontSize: 9,
         fontWeight: '500',
         color: '#6b6b6b'
     },

@@ -11,7 +11,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 
-import MovieDetail from './MovieDetail';
+import MovieDetailContainer from '../containers/MovieDetailContainer';
 import { API_KEY, BASE_IMAGE_URL } from '../config.js';
 
 const REQUEST_URL = `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US`;
@@ -46,7 +46,7 @@ class MovieList extends Component {
     showMovieDetail = (movie) => {
        this.props.navigator.push({
            title: movie.title,
-           component: MovieDetail,
+           component: MovieDetailContainer,
            passProps: { movie }
        });
    }

@@ -6,7 +6,6 @@ import {
     View,
     Image,
     Text,
-    ScrollView
 } from 'react-native';
 
 import { BASE_IMAGE_URL } from '../config.js';
