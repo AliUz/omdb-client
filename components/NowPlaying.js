@@ -1,7 +1,10 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { StyleSheet, NavigatorIOS} from 'react-native';
+import {
+    StyleSheet,
+    NavigatorIOS
+} from 'react-native';
 
 import MovieList from './MovieList';
 
