@@ -9,6 +9,8 @@ import {
     ScrollView
 } from 'react-native';
 
+import MovieImage from './movieDetail/MovieImage';
+import MovieOverview from './movieDetail/MovieOverview';
 import CastAndCrew from '../containers/CastAndCrewContainer';
 import getGenres from '../helpers/getGenres';
 
@@ -23,7 +25,6 @@ class MovieDetail extends Component {
         const movie = this.props.movie;
         const genres = movie.genres;
         const genreNames = getGenres(genres);
-        const backdropImageURI = `${BASE_IMAGE_URL}${movie.backdrop_path}`;
         const posterImageURI = `${BASE_IMAGE_URL}${movie.poster_path}`;
         const overview = movie.overview;
         const year = movie.release_date.split('-')[0];
@@ -35,9 +36,11 @@ class MovieDetail extends Component {
 
         return (
             <ScrollView contentContainerStyle={styles.container}>
-                <View style={styles.imageContainer}>
-                    <Image style={styles.image} source={{uri: backdropImageURI}} />
-                </View>
+                <MovieImage movie={movie}/>
+                {/* <MovieOverview>
+                    <MovieTitle movie={movie}/>
+                    <MovieInfo movie={movie}/>
+                </MovieOverview> */}
                 <View style={styles.infoContainer}>
                     <View style={styles.headingContainer}>
                         <Text style={styles.title}> {movie.title}</Text>
@@ -73,13 +76,6 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 65,
         paddingBottom: 50
-    },
-    imageContainer: {
-        borderBottomWidth: 6.5,
-        borderTopWidth: 4,
-        borderColor: 'black',
-        width: 500,
-        marginBottom: 5
     },
     infoContainer: {
         backgroundColor: '#f5f5f5',
@@ -139,11 +135,6 @@ const styles = StyleSheet.create({
         fontSize: 9,
         fontWeight: '500',
         color: '#6b6b6b'
-    },
-    image: {
-        width: 500,
-        height: 300,
-        alignSelf: 'center'
     },
     description: {
         flex: 1,
