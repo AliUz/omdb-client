@@ -8,10 +8,10 @@ import {
     Text,
     ListView,
     TouchableHighlight,
-    ActivityIndicatorIOS
+    ActivityIndicator
 } from 'react-native';
 
-import MovieDetail from './MovieDetail';
+import MovieDetailContainer from '../containers/MovieDetailContainer';
 import { API_KEY, BASE_IMAGE_URL } from '../config.js';
 
 const REQUEST_URL = `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US`;
@@ -46,14 +46,14 @@ class MovieList extends Component {
     showMovieDetail = (movie) => {
        this.props.navigator.push({
            title: movie.title,
-           component: MovieDetail,
+           component: MovieDetailContainer,
            passProps: { movie }
        });
    }
 
     renderBook = (movie) => {
         return (
-            <TouchableHighlight onPress={() => this.showMovieDetail(movie)}  underlayColor='#dddddd'>
+            <TouchableHighlight onPress={() => this.showMovieDetail(movie)}  underlayColor="#dddddd">
                 <View>
                     <View style={styles.container}>
                         <Image source={{uri: `${BASE_IMAGE_URL}${movie.poster_path}`}}
@@ -66,14 +66,14 @@ class MovieList extends Component {
                     <View style={styles.separator} />
                 </View>
             </TouchableHighlight>
-        )
+        );
     }
 
     renderLoadingView() {
         return (
             <View style={styles.loading}>
-                <ActivityIndicatorIOS
-                    size='large'/>
+                <ActivityIndicator
+                    size="large"/>
                 <Text>
                     Loading Movies...
                 </Text>
