@@ -1,16 +1,18 @@
-import React from 'react';
+import React from 'react-native';
 import {
     StyleSheet,
     View
 } from 'react-native';
 
 const MovieOverview = ({ props }) => {
-    console.log(props);
-    return (
-        <View style={styles.container}>
-            {this.props.children}
-        </View>
-    );
+    if (this.props) {
+        return (
+            <View style={styles.container}>
+                {this.props.children}
+            </View>
+        );
+    }
+    return null;
 };
 
 const styles = StyleSheet.create({

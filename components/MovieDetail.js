@@ -13,9 +13,8 @@ import MovieImage from './movieDetail/MovieImage';
 import MovieOverview from './movieDetail/MovieOverview';
 import MovieTitle from './movieDetail/MovieTitle';
 import MovieInfo from './movieDetail/MovieInfo';
+import MovieDescription from './movieDetail/MovieDescription';
 import CastAndCrew from '../containers/CastAndCrewContainer';
-
-import { BASE_IMAGE_URL } from '../config.js';
 
 class MovieDetail extends Component {
     constructor(props) {
@@ -24,8 +23,6 @@ class MovieDetail extends Component {
 
     render() {
         const movie = this.props.movie;
-        const posterImageURI = `${BASE_IMAGE_URL}${movie.poster_path}`;
-        const overview = movie.overview;
         const averageVote = movie.imdbRating;
         const numVotes = movie.imdbVotes;
         const metaScore = movie.Metascore;
@@ -37,10 +34,7 @@ class MovieDetail extends Component {
                     <MovieTitle movie={movie}/>
                     <MovieInfo movie={movie}/>
                 </MovieOverview>
-                <View style={styles.descriptionContainer}>
-                    <Image style={styles.descriptionImage} source={{uri: posterImageURI}} />
-                    <Text style={styles.description}>{overview}</Text>
-                </View>
+                <MovieDescription movie={movie}/>
                 <View style={styles.voteContainer}>
                     <View style={styles.voteRowContainer}>
                         <Image style={styles.rating} source={require('../assets/rating-black.png')} />
@@ -62,12 +56,6 @@ const styles = StyleSheet.create({
         marginTop: 65,
         paddingBottom: 50
     },
-    descriptionContainer: {
-        flexDirection: 'row',
-        borderBottomColor: '#ddd',
-        borderBottomWidth: 1,
-        marginBottom: 5
-    },
     voteContainer: {
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
@@ -76,18 +64,6 @@ const styles = StyleSheet.create({
     voteRowContainer: {
         flexDirection: 'row',
         marginBottom: 5
-    },
-    description: {
-        flex: 1,
-        padding: 10,
-        fontSize: 12,
-    },
-    descriptionImage: {
-        width: 89,
-        height: 132,
-        marginTop: 10,
-        marginBottom: 10,
-        marginLeft: 10
     },
     vote: {
         marginLeft: 10,
