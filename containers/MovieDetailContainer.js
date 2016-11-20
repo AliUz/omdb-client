@@ -8,6 +8,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 
+import assign from 'lodash/assign';
 import { API_KEY } from '../config.js';
 import MovieDetail from '../components/MovieDetail';
 
@@ -30,10 +31,16 @@ class MovieDetailContainer extends Component {
         fetch(REQUEST_URL)
             .then(response => response.json())
             .then((responseData) => {
-                this.setState({
-                    movie: responseData,
-                    isLoading: false
-                });
+                const OMDB_URL = `https://omdbapi.com/?i=${responseData.imdb_id}&plot=full&r=json`;
+                return fetch(OMDB_URL)
+                    .then(response => response.json())
+                    .then(omdbData => {
+                        assign(responseData, omdbData);
+                        this.setState({
+                            movie: responseData,
+                            isLoading: false
+                        });
+                    });
             })
             .done();
     }
