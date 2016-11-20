@@ -16,33 +16,10 @@ class CastAndCrew extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            cast: [],
-            crew: []
-        };
     }
-
-    componentDidMount() {
-        this.fetchCastAndCrew();
-    }
-
-    fetchCastAndCrew = () => {
-        const movieId = this.props.movie.id;
-        const REQUEST_URL = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${API_KEY}`;
-        fetch(REQUEST_URL)
-            .then(response => response.json())
-            .then((responseData) => {
-                this.setState({
-                    cast: responseData.cast,
-                    crew: responseData.crew
-                });
-            })
-            .done();
-    }
-
     render() {
-        const cast = this.state.cast;
-        const crew = this.state.crew;
+        const cast = this.props.cast;
+        const crew = this.props.crew;
         const profiles = cast.map(castMember => {
             return <Profile key={castMember.id} cast={castMember}/>;
         });
