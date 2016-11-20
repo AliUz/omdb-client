@@ -1,15 +1,14 @@
 import React from 'react';
 import {
     StyleSheet,
-    View,
-    Image
+    View
 } from 'react-native';
 
-const MovieOverview = ({ movie }) => {
-
+const MovieOverview = ({ props }) => {
+    console.log(props);
     return (
         <View style={styles.container}>
-            {this.props.children};
+            {this.props.children}
         </View>
     );
 };
