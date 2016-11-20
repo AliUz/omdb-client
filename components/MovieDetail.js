@@ -8,9 +8,11 @@ import {
     Text,
     ScrollView
 } from 'react-native';
-import CastAndCrew from './CastAndCrew';
-import { BASE_IMAGE_URL } from '../config.js';
+
+import CastAndCrew from '../containers/CastAndCrewContainer';
 import getGenres from '../helpers/getGenres';
+
+import { BASE_IMAGE_URL } from '../config.js';
 
 class MovieDetail extends Component {
     constructor(props) {
@@ -25,9 +27,11 @@ class MovieDetail extends Component {
         const posterImageURI = `${BASE_IMAGE_URL}${movie.poster_path}`;
         const overview = movie.overview;
         const year = movie.release_date.split('-')[0];
-        console.log(movie.id);
-        const pgRating = movie.adult ? 'R' : 'PG-13';
-        const runtime = movie.runtime;
+        const pgRating = movie.Rated;
+        const runtime = movie.Runtime;
+        const averageVote = movie.imdbRating;
+        const numVotes = movie.imdbVotes;
+        const metaScore = movie.Metascore;
 
         return (
             <ScrollView contentContainerStyle={styles.container}>
@@ -41,13 +45,23 @@ class MovieDetail extends Component {
                     </View>
                     <View style={styles.genreContainer}>
                         <Text style={styles.pgRating}> {pgRating} | </Text>
-                        <Text style={styles.runtime}> {runtime} min | </Text>
+                        <Text style={styles.runtime}> {runtime} | </Text>
                         <Text style={styles.genres}> {genreNames} </Text>
                     </View>
                 </View>
                 <View style={styles.descriptionContainer}>
                     <Image style={styles.descriptionImage} source={{uri: posterImageURI}} />
                     <Text style={styles.description}>{overview}</Text>
+                </View>
+                <View style={styles.voteContainer}>
+                    <View style={styles.voteRowContainer}>
+                        <Image style={styles.rating} source={require('../assets/rating-black.png')} />
+                        <Text style={styles.vote}>{averageVote}</Text>
+                        <Text style={styles.outOfTen}> / 10 </Text>
+                        <Text style={styles.metaScore}>{metaScore}</Text>
+                        <Text style={styles.metaScoreText}> Metascore</Text>
+                    </View>
+                    <Text style={styles.numVotes}>{numVotes}</Text>
                 </View>
                 <CastAndCrew movie={movie}/>
             </ScrollView>
@@ -88,6 +102,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
+        marginBottom: 5
+    },
+    voteContainer: {
+        borderBottomColor: '#ddd',
+        borderBottomWidth: 1,
+        marginBottom: 5
+    },
+    voteRowContainer: {
+        flexDirection: 'row',
         marginBottom: 5
     },
     title: {
@@ -134,6 +157,48 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginLeft: 10
     },
+    vote: {
+        marginLeft: 10,
+        fontSize: 13,
+        fontWeight: '600',
+        alignSelf: 'center'
+    },
+    outOfTen: {
+        fontSize: 11,
+        alignSelf: 'center',
+        color: '#6b6b6b'
+    },
+    numVotes: {
+        width: 45,
+        marginLeft: 55,
+        color: '#6b6b6b',
+        fontSize: 12,
+        bottom: 15
+    },
+    rating: {
+        width: 35,
+        height: 35,
+        marginLeft: 10,
+        top: 5
+    },
+    metaScore: {
+        height: 20,
+        marginLeft: 100,
+        marginTop: 15,
+        alignSelf: 'center',
+        backgroundColor: '#ccc',
+        paddingTop: 2,
+        paddingRight: 4,
+        paddingLeft: 4,
+        paddingBottom: 2,
+        textAlign: 'center',
+        color: 'white'
+    },
+    metaScoreText: {
+        marginLeft: 5,
+        marginTop: 15,
+        alignSelf: 'center'
+    }
 });
 
 module.exports = MovieDetail;
