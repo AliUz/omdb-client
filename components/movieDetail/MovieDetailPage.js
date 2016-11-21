@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
-    View
+    ScrollView
 } from 'react-native';
 
-class MovieOverview extends Component {
+class MovieDetailPage extends Component {
     constructor(props) {
         super(props);
     }
@@ -16,21 +16,18 @@ class MovieOverview extends Component {
             });
         });
         return (
-            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container}>
                 {childrenWithProps}
-            </View>
+            </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#f5f5f5',
-        borderTopWidth: 0.5,
-        borderBottomWidth: 1,
-        borderTopColor: 'white',
-        borderBottomColor: '#ddd'
+        marginTop: 65,
+        paddingBottom: 50
     }
 });
 
-export default MovieOverview;
+export default MovieDetailPage;

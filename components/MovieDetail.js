@@ -12,6 +12,7 @@ import MovieTitle from './movieDetail/MovieTitle';
 import MovieInfo from './movieDetail/MovieInfo';
 import MovieDescription from './movieDetail/MovieDescription';
 import MovieRating from './movieDetail/MovieRating';
+import MovieDetailPage from './movieDetail/MovieDetailPage';
 import CastAndCrew from '../containers/CastAndCrewContainer';
 
 class MovieDetail extends Component {
@@ -22,16 +23,16 @@ class MovieDetail extends Component {
     render() {
         const movie = this.props.movie;
         return (
-            <ScrollView contentContainerStyle={styles.container}>
-                <MovieImage movie={movie}/>
+            <MovieDetailPage movie={movie}>
+                <MovieImage/>
                 <MovieOverview>
-                    <MovieTitle movie={movie}/>
-                    <MovieInfo movie={movie}/>
+                    <MovieTitle/>
+                    <MovieInfo/>
                 </MovieOverview>
-                <MovieDescription movie={movie}/>
-                <MovieRating movie={movie}/>
-                <CastAndCrew movie={movie}/>
-            </ScrollView>
+                <MovieDescription/>
+                <MovieRating/>
+                <CastAndCrew/>
+            </MovieDetailPage>
         );
     }
 }
