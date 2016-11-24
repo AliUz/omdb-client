@@ -9,15 +9,24 @@ class MovieDetailPage extends Component {
         super(props);
     }
 
-    render() {
-        const childrenWithProps = React.Children.map(this.props.children, (child) => {
-            return React.cloneElement(child, {
-              movie: this.props.movie
-            });
+    renderChildsWithProps(children, movie) {
+      if (!children) {
+        return [];
+      }
+
+      return React.Children.map(children, (child) => {
+        return React.cloneElement(child, {
+          movie: movie
         });
+      });
+    }
+
+    render() {
+        const { children, movie } = this.props;
+
         return (
             <ScrollView contentContainerStyle={styles.container}>
-                {childrenWithProps}
+                {this.renderChildsWithProps(children, movie)}
             </ScrollView>
         );
     }
