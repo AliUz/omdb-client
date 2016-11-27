@@ -1,18 +1,14 @@
 'use strict';
 
 import React, { Component } from 'react';
-import {
-    StyleSheet,
-    ScrollView
-} from 'react-native';
 
-import MovieImage from './movieDetail/MovieImage';
-import MovieOverview from './movieDetail/MovieOverview';
-import MovieTitle from './movieDetail/MovieTitle';
-import MovieInfo from './movieDetail/MovieInfo';
-import MovieDescription from './movieDetail/MovieDescription';
-import MovieRating from './movieDetail/MovieRating';
-import MovieDetailPage from './movieDetail/MovieDetailPage';
+import MovieImage from './MovieDetail/MovieImage';
+import MovieOverview from './MovieDetail/MovieOverview';
+import MovieTitle from './MovieDetail/MovieTitle';
+import MovieInfo from './MovieDetail/MovieInfo';
+import MovieDescription from './MovieDetail/MovieDescription';
+import MovieRating from './MovieDetail/MovieRating';
+import MovieDetailPage from './MovieDetail/MovieDetailPage';
 import CastAndCrew from '../containers/CastAndCrewContainer';
 
 class MovieDetail extends Component {
@@ -36,12 +32,5 @@ class MovieDetail extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        marginTop: 65,
-        paddingBottom: 50
-    }
-});
 
 module.exports = MovieDetail;

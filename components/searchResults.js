@@ -9,7 +9,7 @@ import {
     Image,
     ListView
 } from 'react-native';
-import MovieDetailContainer from '../containers/MovieDetailContainer';
+import MovieDetail from '../containers/MovieDetailContainer';
 import { BASE_IMAGE_URL } from '../config.js';
 
 class SearchResults extends Component {
@@ -24,7 +24,7 @@ class SearchResults extends Component {
 
     renderMovie = (movie) => {
         return (
-            <TouchableHighlight onPress={() => this.showMovieDetail(movie)} underlayColor='#dddddd'>
+            <TouchableHighlight onPress={() => this.showMovieDetail(movie)} underlayColor="#dddddd">
                 <View>
                     <View style={styles.cellContainer}>
                         <Image
@@ -38,13 +38,13 @@ class SearchResults extends Component {
                     <View style={styles.separator} />
                 </View>
             </TouchableHighlight>
-        )
+        );
     }
 
     showMovieDetail = (movie) => {
         this.props.navigator.push({
             title: movie.title,
-            component: MovieDetailContainer,
+            component: MovieDetail,
             passProps: { movie }
         });
     }

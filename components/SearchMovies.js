@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import queryString from 'query-string';
 import SearchResults from './SearchResults';
-import { API_KEY, BASE_IMAGE_URL } from '../config.js';
+import { API_KEY } from '../config.js';
 
 let BASE_URL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US`;
 
@@ -27,7 +27,7 @@ class SearchMovies extends Component {
     }
 
     handleMovieTitleChange = (event) => {
-        this.setState({ movieTitle: event.nativeEvent.text })
+        this.setState({ movieTitle: event.nativeEvent.text });
     }
 
     searchMovies = () => {

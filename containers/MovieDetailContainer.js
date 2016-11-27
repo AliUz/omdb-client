@@ -27,7 +27,7 @@ class MovieDetailContainer extends Component {
     }
 
     fetchMovie = (id) => {
-        const REQUEST_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US&append_to_response=videos,images,genres&include_image_language=en`;
+        const REQUEST_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US&append_to_response=videos,images,genres&include_image_language=en,null`;
         fetch(REQUEST_URL)
             .then(response => response.json())
             .then((responseData) => {
