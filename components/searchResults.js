@@ -9,7 +9,7 @@ import {
     Image,
     ListView
 } from 'react-native';
-import MovieDetail from './MovieDetail';
+import MovieDetailContainer from '../containers/MovieDetailContainer';
 import { BASE_IMAGE_URL } from '../config.js';
 
 class SearchResults extends Component {
@@ -44,7 +44,7 @@ class SearchResults extends Component {
     showMovieDetail = (movie) => {
         this.props.navigator.push({
             title: movie.title,
-            component: MovieDetail,
+            component: MovieDetailContainer,
             passProps: { movie }
         });
     }

@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     totalVotes: {
-        width: 45,
+        width: 50,
         marginLeft: 55,
         color: '#6b6b6b',
         fontSize: 12,
