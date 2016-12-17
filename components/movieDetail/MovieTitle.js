@@ -19,8 +19,7 @@ const MovieTitle = ({ movie }) => {
 const styles = StyleSheet.create({
     rowContainer: {
         flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+        flexDirection: 'row'
     },
     title: {
         marginLeft: 10,
