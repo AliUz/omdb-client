@@ -12,7 +12,6 @@ class Crew extends Component {
     }
     render() {
       const { crew } = this.props;
-      console.log(crew);
       return (
           <View/>
       );
