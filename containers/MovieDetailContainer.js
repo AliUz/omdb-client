@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 
 import assign from 'lodash/assign';
-import { API_KEY } from '../config.js';
 import MovieDetail from '../components/MovieDetail';
+import * as requests from '../services';
 
 class MovieDetailContainer extends Component {
     constructor(props) {
@@ -23,26 +23,25 @@ class MovieDetailContainer extends Component {
 
     componentDidMount() {
         const id = this.props.movie.id;
-        this.fetchMovie(id);
+        this.fetchMovieDetails(id);
     }
 
-    fetchMovie = (id) => {
-        const REQUEST_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US&append_to_response=videos,images,genres&include_image_language=en,null`;
-        fetch(REQUEST_URL)
-            .then(response => response.json())
-            .then((responseData) => {
-                const OMDB_URL = `https://omdbapi.com/?i=${responseData.imdb_id}&plot=full&r=json`;
-                return fetch(OMDB_URL)
-                    .then(response => response.json())
-                    .then(omdbData => {
-                        assign(responseData, omdbData);
-                        this.setState({
-                            movie: responseData,
-                            isLoading: false
-                        });
-                    });
-            })
-            .done();
+    fetchMovieDetails = (id) => {
+      return requests.fetchMovie(id)
+        .then(movie => {
+          this.setState({
+              movie
+          });
+          return requests.fetchMovieRatings(movie.imdb_id)
+            .then(ratings => {
+              assign(movie, ratings);
+              this.setState({
+                  movie,
+                  isLoading: false
+              });
+            });
+        })
+        .done();
     }
 
     renderLoadingView() {

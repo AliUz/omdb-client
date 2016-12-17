@@ -2,8 +2,8 @@
 
 import React, { Component } from 'react';
 
-import { API_KEY } from '../config.js';
 import CastAndCrew from '../components/CastAndCrew';
+import * as requests from '../services';
 
 class CastAndCrewContainer extends Component {
     constructor(props) {
@@ -15,21 +15,19 @@ class CastAndCrewContainer extends Component {
     }
 
     componentDidMount() {
-        this.fetchCastAndCrew();
+        const id = this.props.movie.id;
+        this.fetchCastAndCrew(id);
     }
 
-    fetchCastAndCrew = () => {
-        const movieId = this.props.movie.id;
-        const REQUEST_URL = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${API_KEY}`;
-        fetch(REQUEST_URL)
-            .then(response => response.json())
-            .then((responseData) => {
-                this.setState({
-                    cast: responseData.cast,
-                    crew: responseData.crew
-                });
-            })
-            .done();
+    fetchCastAndCrew = (id) => {
+        return requests.fetchCastAndCrew(id)
+          .then((response) => {
+              this.setState({
+                  cast: response.cast,
+                  crew: response.crew
+              });
+          })
+          .done();
     }
 
     render() {
