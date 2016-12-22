@@ -10,48 +10,29 @@ import {
     TouchableHighlight,
     ActivityIndicator
 } from 'react-native';
-
-import MovieDetailContainer from '../containers/MovieDetailContainer';
-import { API_KEY, BASE_IMAGE_URL } from '../config.js';
-
-const REQUEST_URL = `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US`;
+import { find } from 'lodash';
+import MovieDetail from '../components/MovieDetail';
+import { BASE_IMAGE_URL } from '../config.js';
 
 class MovieList extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isLoading: true,
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2
-            })
-        };
-    }
-
-    componentDidMount() {
-        this.fetchNowPlaying();
-    }
-
-    fetchNowPlaying = () => {
-        fetch(REQUEST_URL)
-            .then(response => response.json())
-            .then((responseData) => {
-                this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.results),
-                    isLoading: false
-                });
-            })
-            .done();
     }
 
     showMovieDetail = (movie) => {
-       this.props.navigator.push({
-           title: movie.title,
-           component: MovieDetailContainer,
-           passProps: { movie }
-       });
-   }
+            const id = movie.id;
+            const movieDetails = this.props.movieDetails;
+        if (movieDetails.length > 0) {
+            this.props.navigator.push({
+               title: movie.title,
+               component: MovieDetail,
+               passProps: { movie: find(movieDetails, { id }) }
+            });
+        }
+        return null;
+    }
 
-    renderBook = (movie) => {
+    renderRow = (movie) => {
         return (
             <TouchableHighlight onPress={() => this.showMovieDetail(movie)}  underlayColor="#dddddd">
                 <View>
@@ -75,20 +56,21 @@ class MovieList extends Component {
                 <ActivityIndicator
                     size="large"/>
                 <Text>
-                    Loading Movies...
+                    Retreiving Movies ...
                 </Text>
             </View>
         );
     }
 
     render() {
-        if (this.state.isLoading) {
+        const { dataSource, isLoading } = this.props;
+        if (isLoading) {
             return this.renderLoadingView();
         }
         return (
             <ListView
-                dataSource={this.state.dataSource}
-                renderRow={this.renderBook}
+                dataSource={dataSource}
+                renderRow={this.renderRow}
                 style={styles.listView}
             />
         );
@@ -125,6 +107,7 @@ const styles = StyleSheet.create({
     },
     listView: {
         marginTop: 60,
+        marginBottom: 50,
         backgroundColor: '#F5FCFF'
     },
     loading: {
