@@ -6,7 +6,7 @@ import {
     NavigatorIOS
 } from 'react-native';
 
-import MovieList from './MovieList';
+import MovieListContainer from '../containers/MovieListContainer';
 
 class NowPlaying extends Component {
     render() {
@@ -15,7 +15,7 @@ class NowPlaying extends Component {
                 style={styles.container}
                 initialRoute={{
             title: 'Now Playing',
-            component: MovieList
+            component: MovieListContainer
             }}/>
         );
     }

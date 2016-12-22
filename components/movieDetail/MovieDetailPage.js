@@ -34,7 +34,6 @@ class MovieDetailPage extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 65,
         paddingBottom: 50
     }
 });
