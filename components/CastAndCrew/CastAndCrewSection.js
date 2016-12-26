@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = CastAndCrewSection;
+export default CastAndCrewSection;

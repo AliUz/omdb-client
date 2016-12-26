@@ -132,4 +132,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = SearchMovies;
+export default SearchMovies;

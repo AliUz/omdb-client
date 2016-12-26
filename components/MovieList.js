@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = MovieList;
+export default MovieList;
