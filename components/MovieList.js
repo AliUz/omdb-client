@@ -4,29 +4,27 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     View,
-    Image,
     Text,
     ListView,
-    TouchableHighlight,
     ActivityIndicator
 } from 'react-native';
 import { find } from 'lodash';
-import MovieDetail from '../components/MovieDetail';
-import { BASE_IMAGE_URL } from '../config.js';
+import MovieDetail from './MovieDetail';
+import MovieRow from './MovieRow';
 
 class MovieList extends Component {
     constructor(props) {
         super(props);
     }
 
-    showMovieDetail = (movie) => {
-            const id = movie.id;
-            const movieDetails = this.props.movieDetails;
-        if (movieDetails.length > 0) {
+    handleOnPress = (movie) => {
+        const id = movie.id;
+        const movies = this.props.movies;
+        if (movies.length > 0) {
             this.props.navigator.push({
                title: movie.title,
                component: MovieDetail,
-               passProps: { movie: find(movieDetails, { id }) }
+               passProps: { movie: find(movies, { id }) }
             });
         }
         return null;
@@ -34,19 +32,10 @@ class MovieList extends Component {
 
     renderRow = (movie) => {
         return (
-            <TouchableHighlight onPress={() => this.showMovieDetail(movie)}  underlayColor="#dddddd">
-                <View>
-                    <View style={styles.container}>
-                        <Image source={{uri: `${BASE_IMAGE_URL}${movie.poster_path}`}}
-                                    style={styles.thumbnail} />
-                        <View style={styles.rightContainer}>
-                            <Text style={styles.title}>{movie.title}</Text>
-                            <Text style={styles.author}>{movie.release_date}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.separator} />
-                </View>
-            </TouchableHighlight>
+            <MovieRow
+                handleOnPress={this.handleOnPress}
+                movie={movie}
+            />
         );
     }
 
