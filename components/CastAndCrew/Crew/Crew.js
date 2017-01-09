@@ -18,4 +18,4 @@ class Crew extends Component {
     }
 }
 
-module.exports = Crew;
+export default Crew;

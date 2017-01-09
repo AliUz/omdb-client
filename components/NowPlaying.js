@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = NowPlaying;
+export default NowPlaying;

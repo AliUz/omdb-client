@@ -18,7 +18,7 @@ class MovieListContainer extends Component {
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2
             }),
-            movieDetails: []
+            movies: []
         };
     }
 
@@ -33,17 +33,17 @@ class MovieListContainer extends Component {
             .then((responseData) => {
                 const movies = responseData.results;
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(movies),
-                    isLoading: false
+                    dataSource: this.state.dataSource.cloneWithRows(movies)
                 });
                 return movies;
             })
-            .then((movies) => {
-                const fetchMovieJob = movies.map(movie => fetchMovieWithRatings(movie.id));
+            .then((moviesNoRatings) => {
+                const fetchMovieJob = moviesNoRatings.map(movie => fetchMovieWithRatings(movie.id));
                 return Promise.all(fetchMovieJob)
-                    .then((movieDetails) => {
+                    .then((movies) => {
                         this.setState({
-                            movieDetails
+                            movies,
+                            isLoading: false
                         });
                     });
             })
@@ -51,15 +51,15 @@ class MovieListContainer extends Component {
     }
 
     render() {
-        const { dataSource, isLoading, movieDetails } = this.state;
+        const { dataSource, isLoading, movies } = this.state;
         const { ...other } = this.props;
         return <MovieList
                 dataSource={dataSource}
                 isLoading={isLoading}
-                movieDetails={movieDetails}
+                movies={movies}
                 {...other}
             />;
     }
 }
 
-module.exports = MovieListContainer;
+export default MovieListContainer;

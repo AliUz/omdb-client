@@ -40,4 +40,4 @@ class CastAndCrewContainer extends Component {
     }
 }
 
-module.exports = CastAndCrewContainer;
+export default CastAndCrewContainer;

@@ -33,4 +33,4 @@ class MovieDetail extends Component {
     }
 }
 
-module.exports = MovieDetail;
+export default MovieDetail;

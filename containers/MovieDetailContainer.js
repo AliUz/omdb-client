@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = MovieDetailContainer;
+export default MovieDetailContainer;

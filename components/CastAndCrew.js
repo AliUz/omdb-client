@@ -21,4 +21,4 @@ class CastAndCrew extends Component {
     }
 }
 
-module.exports = CastAndCrew;
+export default CastAndCrew;
