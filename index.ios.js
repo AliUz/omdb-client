@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, TabBarIOS } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import codePush from 'react-native-code-push';
 
 import NowPlaying from './components/NowPlaying';
 import Search from './components/Search';
@@ -20,6 +20,10 @@ class MovieDB extends Component {
       this.state = {
           selectedTab: 'nowPlaying'
       };
+  }
+
+  componentDidMount(){
+      codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
   }
 
   render() {
