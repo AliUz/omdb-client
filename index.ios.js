@@ -23,7 +23,7 @@ class MovieDB extends Component {
   }
 
   componentDidMount(){
-      codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
+      codePush.sync({ updateDialog: false, installMode: codePush.InstallMode.IMMEDIATE });
   }
 
   render() {
