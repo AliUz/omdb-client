@@ -1,65 +1,31 @@
-'use strict';
-
-import React, { Component } from 'react';
 import {
     ListView
 } from 'react-native';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as MovieActions from '../actions/MovieActions';
 import MovieList from '../components/MovieList';
-import { fetchMovieWithRatings } from '../services/requests';
-import { API_KEY } from '../config.js';
 
-class MovieListContainer extends Component {
+const ds = new ListView.DataSource({
+  rowHasChanged: (r1, r2) => r1 !== r2
+});
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoading: true,
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2
-            }),
-            movies: []
-        };
-    }
-
-    componentDidMount() {
-        this.fetchNowPlaying();
-    }
-
-    fetchNowPlaying = () => {
-        const REQUEST_URL = `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US`;
-        fetch(REQUEST_URL)
-            .then(response => response.json())
-            .then((responseData) => {
-                const movies = responseData.results;
-                this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(movies)
-                });
-                return movies;
-            })
-            .then((moviesNoRatings) => {
-                const fetchMovieJob = moviesNoRatings.map(movie => fetchMovieWithRatings(movie.id));
-                return Promise.all(fetchMovieJob)
-                    .then((movies) => {
-                        this.setState({
-                            movies,
-                            isLoading: false
-                        });
-                    });
-            })
-            .done();
-    }
-
-    render() {
-        const { dataSource, isLoading, movies } = this.state;
-        const { ...other } = this.props;
-        return <MovieList
-                dataSource={dataSource}
-                isLoading={isLoading}
-                movies={movies}
-                {...other}
-            />;
-    }
+function mapStateToProps(state) {
+  const { movies } = state;
+  return {
+      dataSource: ds.cloneWithRows(movies.list),
+      movies: movies
+  };
 }
 
-export default MovieListContainer;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ ...MovieActions }, dispatch),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MovieList);
